@@ -52,14 +52,14 @@ SET(CURL_SOURCE_DIR CACHE PATH "Path where to find cURL source")
 
 # Check dependencies for LIBPNG
 IF (LIBPNG_SOURCE_DIR)
-  IF(NOT ZLIB_SOURCE_DIR)
+  IF(NOT ANDROID AND NOT ZLIB_SOURCE_DIR)
     MESSAGE(FATAL_ERROR "Error: LIBPNG depends on ZLIB and no ZLIB path has been set")
   ENDIF()
 ENDIF ()
 
 # Check dependencies for LIBTIFF
 IF(LIBTIFF_SOURCE_DIR)
-  IF(NOT ZLIB_SOURCE_DIR)
+  IF(NOT ANDROID AND NOT ZLIB_SOURCE_DIR)
     MESSAGE(FATAL_ERROR "Error: LIBTIFF depends on ZLIB and no ZLIB path has been set")
   ENDIF()
 

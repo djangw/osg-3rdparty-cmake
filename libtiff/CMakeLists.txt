@@ -20,6 +20,11 @@ IF(MINGW)
   SET(tiffconf "${CMAKE_CURRENT_SOURCE_DIR}/tiffconf.mingw.h")
 ENDIF()
 
+IF (ANDROID)
+  SET(tif_config "${CMAKE_CURRENT_SOURCE_DIR}/tif_config.android.h")
+  SET(tiffconf "${CMAKE_CURRENT_SOURCE_DIR}/tiffconf.android.h")
+ENDIF()
+
 CONFIGURE_FILE(${tif_config} tif_config.h @ONLY)
 CONFIGURE_FILE(${tiffconf} tiffconf.h @ONLY)
 
@@ -82,11 +87,15 @@ SET(LIBTIFF_SRCS
   ${LIBTIFF_SOURCE_DIR}/libtiff/tif_tile.c
   ${LIBTIFF_SOURCE_DIR}/libtiff/tif_version.c
   ${LIBTIFF_SOURCE_DIR}/libtiff/tif_warning.c
-  ${LIBTIFF_SOURCE_DIR}/libtiff/tif_win32.c
   ${LIBTIFF_SOURCE_DIR}/libtiff/tif_write.c
   ${LIBTIFF_SOURCE_DIR}/libtiff/tif_zip.c
 )
 
+IF(WIN32)
+  LIST(APPEND LIBTIFF_SRCS
+    ${LIBTIFF_SOURCE_DIR}/libtiff/tif_win32.c
+  )
+ENDIF()
 
 # Check if we have SNPRINTF:
 INCLUDE(CheckFunctionExists)
@@ -124,8 +133,9 @@ TARGET_COMPILE_OPTIONS(libtiff
   )
   
 
-TARGET_LINK_LIBRARIES(libtiff zlib jpeg)
-
+IF(NOT ANDROID)
+  TARGET_LINK_LIBRARIES(libtiff zlib jpeg)
+ENDIF(ANDROID)
 
 IF(MINGW)
   # Static library name

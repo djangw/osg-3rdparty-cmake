@@ -42,6 +42,10 @@ IF (MINGW)
   SET(jconfig "${LIBJPEG_SOURCE_DIR}/jconfig.vc")
 ENDIF()
 
+IF (ANDROID)
+  SET(jconfig "jconfig.android.h")
+ENDIF()
+
 CONFIGURE_FILE(${jconfig} jconfig.h @ONLY)
 CONFIGURE_FILE(${LIBJPEG_SOURCE_DIR}/jerror.h jerror.h COPYONLY)
 CONFIGURE_FILE(${LIBJPEG_SOURCE_DIR}/jmorecfg.h jmorecfg.h COPYONLY)
